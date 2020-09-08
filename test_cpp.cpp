@@ -1,12 +1,13 @@
+#include "opencv4/opencv2/opencv.hpp"
+#include "gtest/gtest.h"
 #include <iostream>
-#include <opencv4/opencv2/opencv.hpp>
 using namespace cv;
 using namespace std;
-int main(int argc, char const *argv[]) {
-  for (int i = 0; i < 10; i++) {
-    cout << i * 2 << endl;
-  }
 
-  cout << "hello fuck" << endl;
-  return 0;
+int add(int a, int b) { return a + b; }
+TEST(testCase, test0) { EXPECT_EQ(add(2, 3), 5); }
+
+int main(int argc, char **argv) {
+  testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
 }
