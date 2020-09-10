@@ -1,12 +1,18 @@
 #include "ridges.hpp"
 
-void divideNonzero(const Mat &src1, const Mat &src2, double cval = 1e-10) {
-  auto denominator = src2.clone();
+void divideNonzero(const Mat &src1, const Mat &src2, Mat &dst, double cval)
+{
+  auto denominator = Mat(src2.rows, src2.cols, src2.type(), Scalar(1e-10));
+  Mat nonZeroMask = src2 != 0;
+  src2.copyTo(denominator, nonZeroMask);
+  divide(src1, denominator, dst);
 }
 
-void sortByAbs(const Mat &src, Mat &dst, int axis, int order) {
+void sortByAbs(const Mat &src, Mat &dst, int axis, int order)
+{
   Mat absData = cv::abs(src);
-  switch (axis) {
+  switch (axis)
+  {
   case 0:
     //   sort row
     sortIdx(absData, dst, SORT_EVERY_COLUMN + order);
