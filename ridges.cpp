@@ -1,5 +1,9 @@
 #include "ridges.hpp"
 
+void divideNonzero(const Mat &src1, const Mat &src2, double cval = 1e-10) {
+  auto denominator = src2.clone();
+}
+
 void sortByAbs(const Mat &src, Mat &dst, int axis, int order) {
   Mat absData = cv::abs(src);
   switch (axis) {
@@ -13,7 +17,8 @@ void sortByAbs(const Mat &src, Mat &dst, int axis, int order) {
   case 2:
     // 通道值排序
     absData = absData.reshape(1, absData.rows * absData.cols);
-
+    sort(absData, dst, SORT_EVERY_ROW + order);
+    dst = dst.reshape(src.channels(), src.rows);
   default:
     sortIdx(absData, dst, SORT_EVERY_COLUMN + order);
     break;
