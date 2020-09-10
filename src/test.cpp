@@ -1,7 +1,7 @@
 #include "opencv4/opencv2/opencv.hpp"
 // #include "gtest/gtest.h"
-#include <iostream>
 #include "ridges.hpp"
+#include <iostream>
 using namespace cv;
 using namespace std;
 
@@ -17,8 +17,7 @@ using namespace std;
 //   EXPECT_NO_THROW(divideNonzero(a, b, c));
 //   cout << c << endl;
 // }
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
   // testing::InitGoogleTest(&argc, argv);
   // return RUN_ALL_TESTS();
   Mat a = Mat(4, 4, CV_32FC1, Scalar(2.4));
