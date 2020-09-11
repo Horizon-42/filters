@@ -40,6 +40,9 @@ default_target: all
 .SUFFIXES: .hpux_make_needs_suffix_list
 
 
+# Command-line flag to silence nested $(MAKE).
+$(VERBOSE)MAKESILENT = -s
+
 # Suppress display of executed commands.
 $(VERBOSE).SILENT:
 
@@ -56,10 +59,10 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /usr/local/Cellar/cmake/3.17.0_1/bin/cmake
+CMAKE_COMMAND = /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake
 
 # The command to remove a file.
-RM = /usr/local/Cellar/cmake/3.17.0_1/bin/cmake -E rm -f
+RM = /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
@@ -73,10 +76,21 @@ CMAKE_BINARY_DIR = /Users/horizon/works/RidgesFilter
 #=============================================================================
 # Targets provided globally by CMake.
 
+# Special rule for the target test
+test:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
+	/Applications/CLion.app/Contents/bin/cmake/mac/bin/ctest --force-new-ctest-process $(ARGS)
+.PHONY : test
+
+# Special rule for the target test
+test/fast: test
+
+.PHONY : test/fast
+
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/usr/local/Cellar/cmake/3.17.0_1/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -86,8 +100,8 @@ rebuild_cache/fast: rebuild_cache
 
 # Special rule for the target edit_cache
 edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/usr/local/Cellar/cmake/3.17.0_1/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -98,13 +112,13 @@ edit_cache/fast: edit_cache
 # The main all target
 all: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/horizon/works/RidgesFilter/CMakeFiles /Users/horizon/works/RidgesFilter/CMakeFiles/progress.marks
-	$(MAKE) -f CMakeFiles/Makefile2 all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/horizon/works/RidgesFilter/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	$(MAKE) -f CMakeFiles/Makefile2 clean
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 clean
 .PHONY : clean
 
 # The main clean target
@@ -114,12 +128,12 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	$(MAKE) -f CMakeFiles/Makefile2 preinstall
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	$(MAKE) -f CMakeFiles/Makefile2 preinstall
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 preinstall
 .PHONY : preinstall/fast
 
 # clear depends
@@ -132,13 +146,26 @@ depend:
 
 # Build rule for target.
 ridges: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 ridges
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ridges
 .PHONY : ridges
 
 # fast build rule for target.
 ridges/fast:
-	$(MAKE) -f CMakeFiles/ridges.dir/build.make CMakeFiles/ridges.dir/build
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ridges.dir/build.make CMakeFiles/ridges.dir/build
 .PHONY : ridges/fast
+
+#=============================================================================
+# Target rules for targets named test_ridges
+
+# Build rule for target.
+test_ridges: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_ridges
+.PHONY : test_ridges
+
+# fast build rule for target.
+test_ridges/fast:
+	$(MAKE) $(MAKESILENT) -f test/CMakeFiles/test_ridges.dir/build.make test/CMakeFiles/test_ridges.dir/build
+.PHONY : test_ridges/fast
 
 src/ridges.o: src/ridges.cpp.o
 
@@ -146,7 +173,7 @@ src/ridges.o: src/ridges.cpp.o
 
 # target to build an object file
 src/ridges.cpp.o:
-	$(MAKE) -f CMakeFiles/ridges.dir/build.make CMakeFiles/ridges.dir/src/ridges.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ridges.dir/build.make CMakeFiles/ridges.dir/src/ridges.cpp.o
 .PHONY : src/ridges.cpp.o
 
 src/ridges.i: src/ridges.cpp.i
@@ -155,7 +182,7 @@ src/ridges.i: src/ridges.cpp.i
 
 # target to preprocess a source file
 src/ridges.cpp.i:
-	$(MAKE) -f CMakeFiles/ridges.dir/build.make CMakeFiles/ridges.dir/src/ridges.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ridges.dir/build.make CMakeFiles/ridges.dir/src/ridges.cpp.i
 .PHONY : src/ridges.cpp.i
 
 src/ridges.s: src/ridges.cpp.s
@@ -164,35 +191,8 @@ src/ridges.s: src/ridges.cpp.s
 
 # target to generate assembly for a file
 src/ridges.cpp.s:
-	$(MAKE) -f CMakeFiles/ridges.dir/build.make CMakeFiles/ridges.dir/src/ridges.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ridges.dir/build.make CMakeFiles/ridges.dir/src/ridges.cpp.s
 .PHONY : src/ridges.cpp.s
-
-src/test_cpp.o: src/test_cpp.cpp.o
-
-.PHONY : src/test_cpp.o
-
-# target to build an object file
-src/test_cpp.cpp.o:
-	$(MAKE) -f CMakeFiles/ridges.dir/build.make CMakeFiles/ridges.dir/src/test_cpp.cpp.o
-.PHONY : src/test_cpp.cpp.o
-
-src/test_cpp.i: src/test_cpp.cpp.i
-
-.PHONY : src/test_cpp.i
-
-# target to preprocess a source file
-src/test_cpp.cpp.i:
-	$(MAKE) -f CMakeFiles/ridges.dir/build.make CMakeFiles/ridges.dir/src/test_cpp.cpp.i
-.PHONY : src/test_cpp.cpp.i
-
-src/test_cpp.s: src/test_cpp.cpp.s
-
-.PHONY : src/test_cpp.s
-
-# target to generate assembly for a file
-src/test_cpp.cpp.s:
-	$(MAKE) -f CMakeFiles/ridges.dir/build.make CMakeFiles/ridges.dir/src/test_cpp.cpp.s
-.PHONY : src/test_cpp.cpp.s
 
 # Help Target
 help:
@@ -202,13 +202,12 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... test"
 	@echo "... ridges"
+	@echo "... test_ridges"
 	@echo "... src/ridges.o"
 	@echo "... src/ridges.i"
 	@echo "... src/ridges.s"
-	@echo "... src/test_cpp.o"
-	@echo "... src/test_cpp.i"
-	@echo "... src/test_cpp.s"
 .PHONY : help
 
 

@@ -1,4 +1,4 @@
 echo off
-cd ./build
+cd ./build || exit
 cmake -G .. > TriffleInfo
 make
