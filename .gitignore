@@ -3,3 +3,8 @@
 build
 *.dSYM
 CMakeFiles
+*.cbp
+*.cmake
+*.dylib
+.idea
+Makefile
